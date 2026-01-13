@@ -1,0 +1,295 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "تسجيل جديد - وسم";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Register.css" asp-append-version="true" />
+    <style>
+        
+        .pattern-grid-container {
+            position: relative; 
+            border: none !important;
+            padding: 10px;
+            margin: 0 auto;
+        }
+
+        .pattern-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: none; 
+            overflow: visible;
+        }
+
+            
+            .pattern-svg line {
+                stroke: #ffffff; 
+                stroke-width: 4;
+                stroke-linecap: round;
+                opacity: 0.8;
+            }
+    </style>
+}
+
+<div class="login-section-wrapper py-5">
+    <div class="glass-card-register animate__animated animate__fadeIn">
+        <h2 class="welcome-msg text-center mb-5">انضم إلى مجتمع وَسْـم</h2>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger text-end mb-4 animate__animated animate__shakeX" style="border-radius: 15px;">
+                @ViewBag.Error
+            </div>
+        }
+
+        <form asp-controller="Account" asp-action="Register" method="post" id="registerForm">
+            @Html.AntiForgeryToken()
+
+            <div class="registration-fields-vertical">
+                <div class="input-container-reg">
+                    <label class="field-label">اسم المستخدم</label>
+                    <input type="text" id="usernameInput" placeholder="USERNAME" name="UserName" class="glass-input-styled" required />
+                    <small id="usernameError" class="text-danger d-none mt-1">يرجى استخدام الحروف الإنجليزية والأرقام فقط</small>
+                </div>
+
+                <div class="input-container-reg">
+                    <label class="field-label">الاسم الكامل</label>
+                    <input type="text" placeholder="FULL NAME" name="FullName" id="fullNameInput" class="glass-input-styled" required />
+                </div>
+
+                <div class="input-container-reg">
+                    <label class="field-label">رقم الهوية</label>
+                    <input type="text" placeholder="1XXXXXXXXX" name="NationalID" id="nationalIdInput" class="glass-input-styled" required />
+                </div>
+
+                <div class="input-container-reg">
+                    <label class="field-label">رقم الهاتف</label>
+                    <input type="tel" placeholder="05XXXXXXXX" name="PhoneNumber" id="phoneInput" class="glass-input-styled" required />
+                </div>
+
+                <div class="input-container-reg">
+                    <label class="field-label">البريد الإلكتروني</label>
+                    <input type="email" placeholder="example@wasm.sa" name="Email" id="emailInput" class="glass-input-styled" required />
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div id="pattern-step-container" class="text-center">
+                <div id="step-1-pattern">
+                    <label class="field-label-center">ارسم نمط الدخول الجديد</label>
+                    <div class="pattern-grid-container standard-pattern" id="pContainer1">
+                        <div class="dots-grid">
+                            @for (int i = 1; i <= 9; i++)
+                            {
+                                <div class="dot-node" data-index="@i"></div>
+                            }
+                        </div>
+                        <svg class="pattern-svg" id="patternSvg1"></svg>
+                    </div>
+                </div>
+
+                <div id="step-2-pattern" style="display:none;">
+                    <label class="field-label-center text-success">أعد رسم النمط للتأكيد</label>
+                    <div class="pattern-grid-container standard-pattern" id="pContainer2">
+                        <div class="dots-grid">
+                            @for (int i = 1; i <= 9; i++)
+                            {
+                                <div class="dot-node" data-index="@i"></div>
+                            }
+                        </div>
+                        <svg class="pattern-svg" id="patternSvg2"></svg>
+                    </div>
+                    <button type="button" onclick="resetFullProcess()" class="btn-link-wasm mt-2 text-white border-0 bg-transparent">إعادة تعيين النمط؟</button>
+                </div>
+            </div>
+
+            <input type="hidden" name="VisualPatternHash" id="PatternData" />
+
+            <div id="patternHelp" class="text-info small text-center mt-2">يرجى إكمال الحقول ورسم النمط لتفعيل الزر</div>
+            <div id="patternError" class="text-danger small text-center mt-2 d-none">الأنماط غير متطابقة، حاول مجدداً</div>
+
+            <div class="text-center mt-5">
+                <button type="submit" id="submitBtn" class="btn-glass-action w-75" disabled>تأكيد التسجيل</button>
+                <div class="mt-4">
+                    <p class="text-white-50 small">لديك حساب بالفعل؟</p>
+                    <a asp-controller="Account" asp-action="Login" class="btn-link-wasm fw-bold" style="color: #00d2ff; text-decoration: none;">
+                        تسجيل الدخول الآن
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let firstPattern = "";
+        let isConfirming = false;
+        let selectedDots = [];
+        let isDrawing = false;
+
+        const formInputs = document.querySelectorAll('.glass-input-styled');
+        const usernameInput = document.getElementById('usernameInput');
+        const usernameError = document.getElementById('usernameError');
+        const submitBtn = document.getElementById('submitBtn');
+        const patternDataInput = document.getElementById('PatternData');
+
+        formInputs.forEach(input => {
+            input.addEventListener('input', checkFormReady);
+        });
+
+        usernameInput.addEventListener('input', function() {
+            const englishRegex = /^[a-zA-Z0-9_]*$/;
+            if (!englishRegex.test(this.value)) {
+                usernameError.classList.remove('d-none');
+                this.style.borderColor = "#ff4d4d";
+            } else {
+                usernameError.classList.add('d-none');
+                this.style.borderColor = "rgba(255,255,255,0.1)";
+            }
+        });
+
+        function initPattern(containerId, svgId) {
+            const container = document.getElementById(containerId);
+            const svg = document.getElementById(svgId);
+            const dots = container.querySelectorAll('.dot-node');
+
+            const startDrawing = (e) => {
+                isDrawing = true;
+                selectedDots = [];
+                svg.innerHTML = "";
+                dots.forEach(d => d.classList.remove('active'));
+            };
+
+            const doDrawing = (e) => {
+                if (!isDrawing) return;
+                const rect = container.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+
+                dots.forEach(dot => {
+                    const dotRect = dot.getBoundingClientRect();
+                    const dotX = dotRect.left - rect.left + dotRect.width/2;
+                    const dotY = dotRect.top - rect.top + dotRect.height/2;
+                    const dist = Math.sqrt((x - dotX)**2 + (y - dotY)**2);
+
+                    if (dist < 25 && !selectedDots.includes(dot.dataset.index)) {
+                        selectedDots.push(dot.dataset.index);
+                        dot.classList.add('active');
+                        drawLines(svg, container);
+                    }
+                });
+            };
+
+            container.addEventListener('mousedown', startDrawing);
+            container.addEventListener('touchstart', startDrawing);
+            container.addEventListener('mousemove', doDrawing);
+            container.addEventListener('touchmove', doDrawing);
+
+            window.addEventListener('mouseup', stopDrawing);
+            window.addEventListener('touchend', stopDrawing);
+        }
+
+        function stopDrawing() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            processPatternSelection();
+        }
+
+        function drawLines(svg, container) {
+            svg.innerHTML = "";
+            const rect = container.getBoundingClientRect();
+
+            for (let i = 0; i < selectedDots.length - 1; i++) {
+                const d1 = container.querySelector(`[data-index="${selectedDots[i]}"]`);
+                const d2 = container.querySelector(`[data-index="${selectedDots[i+1]}"]`);
+                const r1 = d1.getBoundingClientRect();
+                const r2 = d2.getBoundingClientRect();
+
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", r1.left - rect.left + r1.width/2);
+                line.setAttribute("y1", r1.top - rect.top + r1.height/2);
+                line.setAttribute("x2", r2.left - rect.left + r2.width/2);
+                line.setAttribute("y2", r2.top - rect.top + r2.height/2);
+                line.setAttribute("stroke", "#00d2ff");
+                line.setAttribute("stroke-width", "4");
+                line.setAttribute("stroke-linecap", "round");
+                svg.appendChild(line);
+            }
+        }
+
+        function processPatternSelection() {
+            const currentPattern = selectedDots.join('');
+            if (currentPattern.length < 3) {
+                 resetCurrentSVG();
+                 return;
+            }
+
+            if (!isConfirming) {
+                firstPattern = currentPattern;
+                isConfirming = true;
+                document.getElementById('step-1-pattern').style.display = 'none';
+                document.getElementById('step-2-pattern').style.display = 'block';
+                initPattern('pContainer2', 'patternSvg2');
+            } else {
+                if (currentPattern === firstPattern) {
+                    patternDataInput.value = currentPattern;
+                    document.getElementById('patternHelp').innerText = "تم تأكيد النمط بنجاح";
+                    document.getElementById('patternHelp').className = "text-success small text-center mt-2";
+                    document.getElementById('patternError').classList.add('d-none');
+                    checkFormReady();
+                } else {
+                    document.getElementById('patternError').classList.remove('d-none');
+                    setTimeout(resetFullProcess, 1000);
+                }
+            }
+        }
+
+        function resetCurrentSVG() {
+            document.querySelectorAll('.pattern-svg').forEach(s => s.innerHTML = "");
+            document.querySelectorAll('.dot-node').forEach(d => d.classList.remove('active'));
+        }
+
+        function checkFormReady() {
+            const englishRegex = /^[a-zA-Z0-9_]*$/;
+
+            const isUsernameValid = englishRegex.test(usernameInput.value) && usernameInput.value.trim() !== "";
+            const isFullNameValid = document.getElementById('fullNameInput').value.trim() !== "";
+            const isNationalIDValid = document.getElementById('nationalIdInput').value.trim() !== "";
+            const isPhoneValid = document.getElementById('phoneInput').value.trim() !== "";
+            const isEmailValid = document.getElementById('emailInput').value.trim() !== "";
+            const isPatternValid = patternDataInput.value !== "";
+
+            if (isUsernameValid && isFullNameValid && isNationalIDValid && isPhoneValid && isEmailValid && isPatternValid) {
+                submitBtn.disabled = false;
+                document.getElementById('patternHelp').innerText = "البيانات مكتملة، يمكنك التسجيل الآن";
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        function resetFullProcess() {
+            firstPattern = "";
+            isConfirming = false;
+            patternDataInput.value = "";
+            document.getElementById('step-1-pattern').style.display = 'block';
+            document.getElementById('step-2-pattern').style.display = 'none';
+            resetCurrentSVG();
+            document.getElementById('patternHelp').innerText = "يرجى إكمال الحقول ورسم النمط لتفعيل الزر";
+            document.getElementById('patternHelp').className = "text-info small text-center mt-2";
+            checkFormReady();
+            initPattern('pContainer1', 'patternSvg1');
+        }
+
+        initPattern('pContainer1', 'patternSvg1');
+    </script>
+}

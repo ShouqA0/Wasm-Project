@@ -1,0 +1,144 @@
+﻿/* إعدادات الجسم الرئيسي للصفحة */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #151812;
+    font-family: 'Zain', sans-serif;
+    color: #ffffff;
+    direction: rtl;
+}
+
+/* حاوية الصفحة الرئيسية */
+.main-container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* تعريف الخط */
+@font-face {
+    font-family: 'Zain';
+    src: url('/fonts/zain-mob-long500.ttf') format('truetype');
+}
+
+/* تطبيق الخط على جميع عناصر الصفحة مع استثناء صريح للأيقونات لضمان عدم ظهور المربعات [cite: 2025-12-26] */
+* {
+    font-family: 'Zain', sans-serif;
+}
+
+/* الجزء المسؤول عن استعادة خط الأيقونات ومنع إلزامها بخط Zain [cite: 2025-12-26] */
+.fa, .fas, .far, .fab, .fa-solid, .fa-regular, .fa-brands {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+}
+
+:root {
+    --primary-blue: #0a192f;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --accent-color: #00d2ff;
+}
+
+/* --- القائمة العلوية --- */
+.navbar {
+    background: rgba(10, 25, 47, 0.8) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    height: 65px !important;
+    z-index: 1000;
+}
+
+.btn-nav-glass {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border-radius: 105px !important;
+    padding: 6px 18px !important;
+    transition: 0.4s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+/* --- شبكة البطاقات والأزرار --- */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 50px;
+    position: relative;
+    z-index: 10;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    padding: 40px 20px;
+    border-radius: 20px;
+    text-align: center;
+    transition: 0.4s;
+    position: relative;
+    pointer-events: auto !important;
+}
+
+/* الزر المطلوب إصلاحه */
+.card-action-btn {
+    background-color: var(--accent-color) !important;
+    color: #ffffff !important;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none !important;
+    display: inline-block;
+    margin-top: 20px;
+    font-weight: bold;
+    position: relative;
+    z-index: 999 !important;
+    cursor: pointer !important;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
+}
+
+    .card-action-btn:hover {
+        background-color: #ffffff !important;
+        color: var(--primary-blue) !important;
+        transform: scale(1.05);
+    }
+
+.glass-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-5px);
+}
+
+/* إجبار الأيقونات على الظهور */
+svg {
+    pointer-events: none;
+}
+
+/* تعديل تأثير التأشير للمربعات الزجاجية */
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    border-color: var(--accent-color) !important;
+    color: #ffffff !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+    .glass-card:hover h2,
+    .glass-card:hover h3,
+    .glass-card:hover p {
+        color: #ffffff !important;
+    }
+
+/* كود الطوارئ لظهور الأيقونات */
+header svg,
+.navbar svg,
+.btn-nav-glass svg {
+    display: inline-block !important;
+    visibility: visible !important;
+    width: 20px !important;
+    height: 20px !important;
+    fill: #00d2ff !important;
+}

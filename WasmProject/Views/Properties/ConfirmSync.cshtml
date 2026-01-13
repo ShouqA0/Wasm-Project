@@ -1,0 +1,19 @@
+﻿@model WasmProject.Models.Property
+<div class="container mt-5 text-end" dir="rtl">
+    <div class="card border-0 shadow-lg p-4">
+        <h4 class="text-success fw-bold border-bottom pb-2">نتائج المسح الذكي لوسم</h4>
+        <p>لقد وجدنا البيانات التالية في فاتورتك، هل تود توثيقها؟</p>
+        <form asp-action="Create" method="post">
+            <input type="hidden" asp-for="SourceType" value="SmartSync" />
+            <div class="mb-3">
+                <label>الماركة المستخرجة:</label>
+                <input asp-for="Brand" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label>الرقم التسلسلي المستخرج:</label>
+                <input asp-for="SerialNumber" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-success w-100">تأكيد وتوثيق الملكية</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,268 @@
+﻿@model WasmProject.Models.Property
+
+@{
+    ViewData["Title"] = "نقل الملكية - وسم";
+}
+
+<style>
+    
+    * {
+        font-family: 'Zain', sans-serif !important;
+    }
+
+    
+    .wasm-transfer-wrapper {
+        padding: 60px 20px;
+        min-height: 85vh;
+    }
+
+    
+    .glass-transfer-card {
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 193, 7, 0.3); 
+        border-radius: 35px;
+        padding: 45px;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        transition: 0.4s ease;
+        color: white;
+    }
+
+        .glass-transfer-card:hover {
+            border-color: #ffc107;
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.15);
+        }
+
+    
+    .transfer-label {
+        color: #ffffff !important;
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+        text-align: right;
+    }
+
+    
+    .transfer-input {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: none !important;
+        color: #000000 !important;
+        border-radius: 15px !important;
+        padding: 15px 20px !important;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+
+        .transfer-input:focus {
+            background: #ffffff !important;
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.4) !important;
+        }
+
+    
+    .btn-wasm-transfer {
+        background: linear-gradient(45deg, #ffc107, #ff9800);
+        border: none;
+        color: #000 !important;
+        border-radius: 50px;
+        padding: 18px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: 0.3s;
+        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
+    }
+
+        .btn-wasm-transfer:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 193, 7, 0.4);
+        }
+
+    .info-box-glass {
+        background: rgba(0, 210, 255, 0.05);
+        border: 1px solid rgba(0, 210, 255, 0.2);
+        border-radius: 15px;
+        padding: 15px;
+        color: #00d2ff;
+        text-align: right;
+    }
+
+    
+    .history-section {
+        margin-top: 50px;
+    }
+
+    .glass-table-container {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .table-wasm {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 12px; 
+        color: white !important;
+    }
+
+        .table-wasm thead th {
+            background: transparent;
+            color: #00d2ff;
+            border: none;
+            padding: 15px;
+            font-weight: bold;
+        }
+
+        .table-wasm tbody tr {
+            background: rgba(255, 255, 255, 0.05); 
+            transition: 0.3s ease;
+        }
+
+            .table-wasm tbody tr:hover {
+                background: rgba(255, 255, 255, 0.1) !important;
+                transform: translateY(-2px);
+            }
+
+        .table-wasm td {
+            padding: 20px 15px;
+            border: none;
+            vertical-align: middle;
+        }
+
+        
+        .table-wasm tbody tr td:first-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+        .table-wasm tbody tr td:last-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+    .status-badge-completed {
+        background: rgba(46, 204, 113, 0.15);
+        color: #2ecc71;
+        border: 1px solid rgba(46, 204, 113, 0.5);
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .sn-highlight {
+        color: #ffc107;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+    }
+</style>
+
+<div class="wasm-transfer-wrapper" dir="rtl">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+               
+                <div class="glass-transfer-card shadow-lg animate__animated animate__fadeIn mb-5">
+                    <div class="text-center mb-5">
+                        <i class="fas fa-exchange-alt fa-4x text-warning mb-3"></i>
+                        <h2 class="text-white fw-bold">نقل ملكية غرض</h2>
+                        <p class="text-white-50">التنازل عن ملكية غرضك لشخص آخر موثق في نظام وسم</p>
+                    </div>
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert bg-danger bg-opacity-10 border-danger text-danger rounded-4 mb-4 text-center">
+                            <i class="fas fa-exclamation-circle me-2"></i> @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Transfer" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-4">
+                            <label class="transfer-label">الرقم التسلسلي للغرض (S/N)</label>
+                            <input type="text" name="serialNumber" class="form-control transfer-input text-start"
+                                   dir="ltr" placeholder="أدخل الرقم التسلسلي بدقة..." required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="transfer-label">رقم هوية المالك الجديد</label>
+                            <input type="text" name="newOwnerNationalID" class="form-control transfer-input text-start"
+                                   dir="ltr" placeholder="رقم هوية الشخص المنقول له..." required />
+
+                            <div class="info-box-glass mt-3 small">
+                                <i class="fas fa-info-circle ms-2"></i>
+                                تنبيه: يجب أن يكون الطرف الآخر مسجلاً في منصة <strong>وسم</strong> مسبقاً لإتمام العملية.
+                            </div>
+                        </div>
+
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-wasm-transfer w-100 shadow-lg">
+                                <i class="fas fa-check-double ms-2"></i> تأكيد نقل الملكية نهائياً
+                            </button>
+
+                            <div class="text-center mt-3">
+                                <a asp-action="Index" class="text-white-50 text-decoration-none small">
+                                    <i class="fas fa-arrow-right ms-1"></i> إلغاء والعودة لممتلكاتي
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="mt-5 pt-3 border-top border-white border-opacity-10 text-center">
+                        <small class="text-white-50">
+                            <i class="fas fa-shield-alt text-warning me-1"></i>
+                            بمجرد التأكيد، ستنتقل كافة صلاحيات الإدارة لهذا الغرض إلى المالك الجديد.
+                        </small>
+                    </div>
+                </div>
+
+                
+                <div class="history-section animate__animated animate__fadeInUp">
+                    <div class="glass-table-container shadow-lg">
+                        <h4 class="fw-bold mb-4"><i class="fas fa-history me-2 text-info"></i> سجل ممتلكاتي المنقولة</h4>
+                        <div class="table-responsive">
+                            <table class="table-wasm text-center">
+                                <thead>
+                                    <tr>
+                                        <th>الغرض</th>
+                                        <th>الرقم التسلسلي</th>
+                                        <th>المالك الجديد</th>
+                                        <th>تاريخ النقل</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.TransferHistory != null && ((IEnumerable<dynamic>)ViewBag.TransferHistory).Any())
+                                    {
+                                        foreach (var history in ViewBag.TransferHistory)
+                                        {
+                                            <tr>
+                                                <td class="fw-bold">@history.PropertyBrand</td>
+                                                <td class="sn-highlight">@history.SerialNumber</td>
+                                                <td>@history.NewOwnerName</td>
+                                                <td>@history.TransferDate.ToString("yyyy-MM-dd")</td>
+                                                <td><span class="status-badge-completed">مكتمل</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="py-5 text-white-50 text-center">لا توجد عمليات نقل ملكية مسجلة حالياً.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,203 @@
+﻿@model WasmProject.Models.Property
+
+@{
+    ViewData["Title"] = "توثيق ملكية - وسم";
+}
+
+<style>
+    
+    * {
+        font-family: 'Zain', sans-serif !important;
+    }
+
+    
+    .wasm-create-wrapper {
+        padding: 40px 20px;
+        min-height: 80vh;
+    }
+
+    
+    .glass-card-selection {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 25px;
+        transition: 0.4s ease;
+        color: white;
+    }
+
+    .glass-card-selection:hover {
+        border-color: rgba(0, 210, 255, 0.5) !important;
+        box-shadow: 0 0 30px rgba(0, 210, 255, 0.15);
+        transform: translateY(-5px);
+    }
+
+    
+    .glass-input {
+        background: #ffffff !important; 
+        border: 1px solid #ffffff !important;
+        color: #000000 !important; 
+        border-radius: 15px !important;
+        text-align: right;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .glass-input:focus {
+        background: #ffffff !important;
+        border-color: #00d2ff !important;
+        box-shadow: 0 0 15px rgba(0, 210, 255, 0.3) !important;
+        outline: none;
+    }
+
+    
+    .glass-input option {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    
+    .btn-wasm-glass {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid #ffffff;
+        color: white;
+        border-radius: 50px;
+        font-weight: bold;
+        padding: 12px 35px;
+        transition: all 0.5s ease;
+    }
+
+    .btn-wasm-glass:hover {
+        background: white;
+        color: #0a192f !important;
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+    }
+
+    .form-label {
+        color: #00d2ff;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+        text-align: right;
+    }
+
+    
+    .header-flex-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .text-right-side {
+        text-align: right;
+    }
+
+    .button-left-side {
+        text-align: left;
+    }
+</style>
+
+<div class="container wasm-create-wrapper" dir="rtl">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-white">توثيق ملكية جديدة</h2>
+        <p class="text-white-50">سجل بيانات ممتلكاتك لضمان سهولة استعادتها في حال فقدانها</p>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="wasm-alert-box animate__animated animate__shakeX" style="background: rgba(220, 53, 69, 0.1); border: 1px solid rgba(220, 53, 69, 0.3); border-radius: 15px; padding: 20px; margin-bottom: 25px; color: #ff6b6b; text-align: right;">
+                    <h6 class="fw-bold mb-2">تعذر الحفظ، يرجى مراجعة التالي:</h6>
+                    <div asp-validation-summary="All" class="small"></div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row justify-content-center g-4">
+        
+        <div class="col-md-5">
+            <div class="card glass-card-selection h-100 shadow">
+                <div class="card-body p-5 text-center">
+                    <h4 class="fw-bold mb-3">المزامنة الذكية</h4>
+                    <form asp-action="SyncTest" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-4 text-end">
+                            <label class="form-label">فاتورة الشراء (PDF)</label>
+                            <input type="file" name="invoicePdf" class="form-control glass-input shadow-sm" accept=".pdf" required />
+                        </div>
+                        <button type="submit" class="btn btn-wasm-glass w-100 py-3">بدء الاستخراج الذكي</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-md-10 mt-2">
+            <div class="card glass-card-selection shadow-sm border-0">
+                <div class="card-body py-5 px-md-5">
+
+                    <div class="header-flex-row">
+                        <div class="text-right-side">
+                            <h5 class="fw-bold mb-2">الإرفاق اليدوي للبيانات</h5>
+                            <p class="opacity-75 mb-0">قم بتعبئة الرقم التسلسلي والبيانات يدوياً.</p>
+                        </div>
+
+                        <div class="button-left-side">
+                            <button type="button" class="btn btn-wasm-glass px-5 rounded-pill" data-bs-toggle="collapse" data-bs-target="#manualForm">
+                                عرض النموذج
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="collapse mt-5 show" id="manualForm">
+                        <div class="p-4 rounded-4 bg-transparent border border-white border-opacity-10">
+                            <form asp-action="Create" method="post">
+                                @Html.AntiForgeryToken()
+                                <div class="row g-4 text-end">
+                                    <div class="col-md-6">
+                                        <label asp-for="Brand" class="form-label">الماركة (Brand)</label>
+                                        <input asp-for="Brand" class="form-control glass-input py-2" placeholder="مثلاً: Apple, Sony" required />
+                                        <span asp-validation-for="Brand" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="Category" class="form-label">الفئة (Category)</label>
+                                        <select asp-for="Category" class="form-select glass-input py-2" required>
+                                            <option value="">-- اختر النوع --</option>
+                                            <option value="Electronics">إلكترونيات</option>
+                                            <option value="Vehicles">مركبات</option>
+                                            <option value="Jewelry">مجوهرات</option>
+                                            <option value="Personal">أخرى</option>
+                                        </select>
+                                        <span asp-validation-for="Category" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label asp-for="SerialNumber" class="form-label text-info">الرقم التسلسلي (SerialNumber)</label>
+                                        <input asp-for="SerialNumber" class="form-control glass-input py-2 text-start" dir="ltr" placeholder="أدخل الرقم التسلسلي" required />
+                                        <span asp-validation-for="SerialNumber" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-12 text-center mt-5">
+                                        <button type="submit" class="btn btn-wasm-glass shadow-lg px-5 py-3">
+                                            توثيق الملكية في وسم
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

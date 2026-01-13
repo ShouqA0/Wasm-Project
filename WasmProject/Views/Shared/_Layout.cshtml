@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - وَسْــم Wasm</title>
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zain:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WasmProject.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/wasm-ai.css" asp-append-version="true" />
+
+    <style>
+        :root {
+            --deep-blue: #0A192F;
+            --gold-accent: #D4AF37;
+        }
+
+        body {
+            background-color: var(--deep-blue);
+            font-family: 'Zain', sans-serif !important;
+            margin: 0;
+            padding: 0;
+        }
+
+        #wasm-ai-assistant, #chat-window, #greeting-bubble, .bot-msg, .msg, #chat-input {
+            font-family: 'Tajawal', sans-serif !important;
+        }
+
+        .navbar {
+            background: rgba(10, 25, 47, 0.7) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            padding: 12px 0 !important;
+            z-index: 1050;
+        }
+
+        .footer-wasm {
+            text-align: center;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.6);
+            background: var(--deep-blue);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 1.2rem;
+        }
+
+        
+        #chat-toggle-btn {
+            width: 70px;
+            height: 70px;
+            background: white !important;
+            color: var(--deep-blue) !important;
+            border: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9999;
+        }
+
+            #chat-toggle-btn:hover {
+                transform: scale(1.1);
+            }
+
+            #chat-toggle-btn::after {
+                content: "\f075";
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                font-size: 28px;
+            }
+    </style>
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm fixed-top">
+            <div class="container">
+                <a class="navbar-brand fw-bold d-flex align-items-center ms-3" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logo.png" alt="لوقو وسم" style="height: 50px; width: auto; object-fit: contain;" class="ms-2">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav me-auto">
+                        @if (Context.Session.GetInt32("UserID") != null)
+                        {
+                            <li class="nav-item"><a class="nav-link btn-nav-glass" asp-controller="Properties" asp-action="Index">ممتلكاتي</a></li>
+                            <li class="nav-item"><a class="nav-link btn-nav-glass" asp-controller="LostReports" asp-action="Report">بلاغاتي</a></li>
+                            <li class="nav-item"><a class="nav-link btn-nav-glass" asp-controller="Properties" asp-action="Transfer">نقل الملكية</a></li>
+                        }
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link btn-nav-glass" asp-controller="Home" asp-action="SearchOwner">البحث عن مالك</a></li>
+                        @if (Context.Session.GetInt32("UserID") != null)
+                        {
+                            <li class="nav-item"><a class="nav-link btn-nav-glass" asp-controller="Account" asp-action="Logout">خروج</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" style="min-height: 80vh; padding-top: 100px;">
+        @RenderBody()
+    </main>
+
+    <footer class="footer-wasm">
+        <div class="container">
+            <p>مشروع وسم &copy; @DateTime.Now.Year - لتوثيق وحماية الممتلكات الشخصية</p>
+        </div>
+    </footer>
+
+    
+    <div id="wasm-ai-assistant" dir="rtl" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999;">
+        <div id="greeting-bubble" class="bg-white shadow-lg p-3 rounded-4 mb-3 animate__animated animate__fadeInUp"
+             style="display:none; color: #333; border-right: 5px solid #D4AF37; min-width: 200px;">
+            <p class="small mb-0 fw-bold">أهلاً بك في وسم، أنا هنا لمساعدتك</p>
+        </div>
+
+        <div id="chat-window" class="card border-0 mb-3 shadow-lg animate__animated"
+             style="display:none; width: 320px; border-radius: 20px; position: absolute; bottom: 85px; right: 0; overflow: hidden;">
+            <div class="card-header bg-dark text-white p-3 d-flex justify-content-between align-items-center">
+                <span class="fw-bold header-title-wasm">مساعد وسم</span>
+                <button type="button" class="btn-close btn-close-white" id="minimize-chat" style="font-size: 10px;"></button>
+            </div>
+            <div id="chat-messages" class="card-body bg-light" style="height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 15px;">
+                <div class="msg bot-msg p-2 bg-white rounded shadow-sm small" style="align-self: flex-start; max-width: 80%;">
+                    مرحباً بك! كيف يمكنني مساعدتك اليوم في توثيق ممتلكاتك؟
+                </div>
+            </div>
+            <div class="card-footer bg-white p-3 border-0">
+                <div class="input-group-wasm d-flex">
+                    <input type="text" id="chat-input" class="form-control border-0 bg-light" placeholder="اسألني..." autocomplete="off">
+                    <button id="btn-send-chat" class="btn btn-link text-success" type="button">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="chat-toggle-btn" class="animate__animated animate__bounceIn shadow-lg">
+        </div>
+    </div>
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    
+    <script src="~/js/wasm_ai.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

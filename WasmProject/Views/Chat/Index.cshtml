@@ -1,0 +1,197 @@
+﻿@model IEnumerable<WasmProject.Models.ChatMessage>
+@{
+    var property = ViewBag.Property as WasmProject.Models.Property;
+    ViewData["Title"] = "المحادثة الآمنة - وسم";
+}
+
+<style>
+    
+    .chat-main-wrapper {
+        padding: 30px 10px;
+        min-height: 85vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    
+    .glass-chat-container {
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 30px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    
+    .chat-glass-header {
+        background: rgba(0, 210, 255, 0.15);
+        padding: 20px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    
+    .chat-scroll-area {
+        height: 500px;
+        overflow-y: auto;
+        padding: 25px;
+        background: rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+    }
+
+    
+    .chat-bubble {
+        max-width: 75%;
+        padding: 12px 18px;
+        margin-bottom: 15px;
+        font-size: 1rem;
+        line-height: 1.5;
+        position: relative;
+    }
+
+    
+    .bubble-me {
+        align-self: flex-start;
+        background: linear-gradient(135deg, #00d2ff, #0081ff);
+        color: white;
+        border-radius: 20px 20px 0px 20px;
+        box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
+    }
+
+    
+    .bubble-other {
+        align-self: flex-end;
+        background: #ffffff !important; 
+        color: #000000 !important; 
+        border-radius: 20px 20px 20px 0px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    
+    .chat-glass-footer {
+        padding: 20px 25px;
+        background: rgba(255, 255, 255, 0.05);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    
+    .wasm-chat-input {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: none !important;
+        border-radius: 50px !important;
+        padding: 12px 25px !important;
+        font-weight: 500;
+    }
+
+        .wasm-chat-input::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+    .btn-wasm-send {
+        background: linear-gradient(45deg, #00d2ff, #0081ff);
+        color: white !important;
+        border: none;
+        border-radius: 50px;
+        padding: 0 30px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-wasm-send:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+        }
+
+    
+    .chat-scroll-area::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .chat-scroll-area::-webkit-scrollbar-thumb {
+        background: rgba(0, 210, 255, 0.3);
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container chat-main-wrapper" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-md-9 col-lg-8">
+
+            <div class="glass-chat-container animate__animated animate__fadeInUp">
+                <div class="chat-glass-header">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-white bg-opacity-20 rounded-circle p-2 me-3">
+                            <i class="fas fa-user-shield fa-2x text-info"></i>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="mb-0 fw-bold">محادثة آمنة: @property.Brand</h5>
+                            <small class="text-white-50">الرقم التسلسلي: @property.SerialNumber</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-scroll-area" id="chatWindow">
+                    @if (!Model.Any())
+                    {
+                        <div class="text-center my-auto">
+                            <i class="fas fa-comments fa-4x text-white-50 mb-3 opacity-25"></i>
+                            <p class="text-white-50">لا توجد رسائل بعد. ابدأ المحادثة الآن لاستعادة الأمانة.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var msg in Model)
+                        {
+                            bool isMe = (Context.Session.GetInt32("UserID") == msg.SenderId);
+
+                            <div class="chat-bubble @(isMe ? "bubble-me" : "bubble-other shadow-sm")">
+                                <p class="mb-1">@msg.MessageContent</p>
+                                <div class="text-start" style="font-size: 0.7rem; opacity: 0.7;">
+                                    @msg.SentAt.ToString("hh:mm tt")
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="chat-glass-footer">
+                    <form asp-action="SendMessage" method="post" class="input-group">
+                        <input type="hidden" name="propertyId" value="@property.PropertyId" />
+                        <button class="btn btn-wasm-send" type="submit">
+                            إرسال <i class="fas fa-paper-plane ms-1"></i>
+                        </button>
+                        <input type="text" name="messageText" class="form-control wasm-chat-input"
+                               placeholder="اكتب رسالتك هنا بخصوص الأمانة..." required autocomplete="off" />
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <small class="text-white-50">
+                    <i class="fas fa-lock text-info me-1"></i>
+                    هذه المحادثة مشفرة بالكامل بنظام <span class="text-info">AES-256</span> لضمان خصوصيتك.
+                </small>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        
+        var chatWindow = document.getElementById("chatWindow");
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+
+        
+        function scrollToBottom() {
+            chatWindow.animate({ scrollTop: chatWindow.scrollHeight }, 500);
+        }
+    </script>
+}

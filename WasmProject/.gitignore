@@ -1,0 +1,29 @@
+## [Visual Studio]
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+
+## [ASP.NET Core]
+appsettings.Development.json
+/Properties/publishProfiles/
+/bin/Debug/
+/bin/Release/
+
+## [Databases]
+*.mdf
+*.ldf
+*.sdf
+
+## [Mac OS]
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+__MACOSX/
+
+## [Others]
+node_modules/
+.env

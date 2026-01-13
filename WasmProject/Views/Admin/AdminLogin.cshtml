@@ -1,0 +1,79 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "دخول المسؤول - وسم";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <style>
+        .admin-wrapper {
+            background-color: #0A192F;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .glass-card-admin {
+            background: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            text-align: right;
+            direction: rtl;
+        }
+
+        .forgot-link-admin {
+            display: block;
+            text-align: center;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+            .forgot-link-admin:hover {
+                color: #ffffff;
+            }
+    </style>
+}
+
+<div class="admin-wrapper">
+    <div class="glass-card-admin animate__animated animate__zoomIn">
+        <h2 class="welcome-msg text-center mb-5">دخول المسؤول</h2>
+
+        
+        <form asp-controller="Admin" asp-action="Login" method="post">
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger bg-transparent border-danger text-danger text-center small mb-4 py-2">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <div class="input-container-reg mb-4">
+                <label class="field-label mb-2 d-block">البريد الإلكتروني</label>
+                <input type="email" name="adminEmail" class="glass-input-styled w-100" required placeholder="admin@wasm.sa" />
+            </div>
+
+            <div class="input-container-reg mb-4">
+                <label class="field-label mb-2 d-block">كلمة المرور</label>
+                <input type="password" name="password" class="glass-input-styled w-100" required placeholder="••••••••" />
+            </div>
+
+            <div class="mt-5">
+                <button type="submit" class="btn-glass-action w-100 py-3 shadow-sm">تسجيل الدخول</button>
+            </div>
+
+            <a href="#" class="forgot-link-admin">نسيت كلمة المرور؟</a>
+        </form>
+    </div>
+</div>

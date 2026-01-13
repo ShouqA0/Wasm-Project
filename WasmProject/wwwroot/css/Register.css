@@ -1,0 +1,138 @@
+﻿/* تنسيقات خاصة بصفحة تسجيل مستخدم جديد - مشروع وسم */
+
+/* الحاوية الكبرى لضمان التوسط الكامل */
+.login-section-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    background-color: #0A192F; /* التأكد من اللون الكحلي العميق للخلفية */
+}
+
+/* المربع الزجاجي الكبير - تم تحسين الشفافية والظل */
+.glass-card-register {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 40px;
+    padding: 50px;
+    width: 100%;
+    max-width: 550px; /* تقليل العرض قليلاً ليتناسب مع التصميم العمودي الأنيق */
+    margin: auto;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+    text-align: right;
+    direction: rtl;
+}
+
+/* ترتيب الحقول عمودياً */
+.registration-fields-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* زيادة المسافة قليلاً لراحة العين */
+}
+
+/* الحاوية لكل حقل (label + input) */
+.input-container-reg {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+/* جعل الحقول زجاجية بالكامل مع نص واضح */
+.glass-input-styled {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    border-radius: 15px !important;
+    padding: 16px 20px !important;
+    width: 100%;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+    .glass-input-styled::placeholder {
+        color: rgba(255, 255, 255, 0.3) !important;
+        font-size: 0.95rem;
+    }
+
+    .glass-input-styled:focus {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: #ffffff !important; /* لون وسم الذهبي عند التركيز */
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+    }
+
+/* تنسيق العناوين بجانب الأيقونات */
+.field-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .field-label i {
+        color: #ffffff; /* جعل الأيقونات باللون الذهبي */
+        font-size: 1.1rem;
+    }
+
+.field-label-center {
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    display: block;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* تنسيق منطقة النمط القياسي */
+.standard-pattern {
+    width: 280px;
+    height: 280px;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 20px;
+    padding: 10px;
+}
+
+/* رابط إعادة النمط */
+.btn-link-wasm {
+    background: none;
+    border: none;
+    color: #ffffff; /* تغيير اللون للذهبي ليكون واضحاً */
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+    .btn-link-wasm:hover {
+        color: white;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+/* فاصل جمالي بين الحقول والأنماط */
+.section-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 40px 0;
+    position: relative;
+}
+
+/* تحسين شكل النقاط في النمط */
+.dot-node {
+    width: 16px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+    .dot-node.active {
+        background: #ffffff !important;
+        box-shadow: 0 0 15px #D4AF37;
+    }

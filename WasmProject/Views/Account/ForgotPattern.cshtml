@@ -1,0 +1,184 @@
+﻿@model WasmProject.Models.UserDb
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "استعادة النمط - وسم";
+}
+
+<style>
+    
+    .recovery-page-wrapper {
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+       
+        font-family: 'Zain', sans-serif !important;
+    }
+
+    
+    .glass-recovery-card,
+    .glass-recovery-card h2,
+    .glass-recovery-card label,
+    .glass-recovery-card input,
+    .glass-recovery-card span,
+    .back-to-login-btn span {
+        color: #ffffff !important;
+    }
+
+    
+    .glass-recovery-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 25px;
+        padding: 50px 40px;
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        transition: 0.4s ease;
+    }
+
+        .glass-recovery-card:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+    .wasm-title {
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .field-label {
+        display: block;
+        text-align: right;
+        margin-bottom: 12px;
+        font-size: 1.3rem;
+    }
+
+    /
+    .wasm-input {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        width: 100%;
+        transition: 0.3s ease;
+        font-size: 1.1rem;
+        text-align: center;
+        color: white !important;
+    }
+
+        .wasm-input:focus {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-color: #ffffff !important;
+            outline: none;
+        }
+
+    
+    .btn-send-text {
+        margin-top: 25px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .btn-send-text span {
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .btn-send-text:hover span {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+    
+    .back-to-login-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 12px 30px;
+        border-radius: 50px;
+        transition: 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .back-to-login-btn:hover {
+            background: #ffffff !important;
+        }
+
+            
+            .back-to-login-btn:hover span {
+                color: #0a192f !important;
+            }
+
+    .success-box {
+        padding: 20px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        margin-top: 20px;
+    }
+</style>
+
+<div class="recovery-page-wrapper" dir="rtl">
+    <div class="glass-recovery-card animate__animated animate__fadeIn">
+        <h2 class="wasm-title">وَسْــم</h2>
+
+        <div id="recovery-form-content">
+            <div class="input-group-wasm">
+                <label class="field-label">البريد الإلكتروني</label>
+                <input type="email" id="user-email" class="wasm-input" placeholder="example@domain.com" autocomplete="off" />
+                <small id="error-msg" class="text-danger mt-3 d-none fw-bold" style="color: #ff6b6b !important;">
+                    البريد الإلكتروني المدخل غير صحيح
+                </small>
+            </div>
+
+            <div class="send-action-wrapper mt-4">
+                <button type="button" id="btn-mock-send" class="btn-send-text border-0 bg-transparent">
+                    <span>إرسال</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="success-msg" class="success-box text-center d-none">
+            <p class="fw-bold m-0" style="font-size: 1.3rem;">
+                تم إرسال تعليمات استعادة النمط بنجاح
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <a asp-controller="Account" asp-action="Login" class="back-to-login-btn">
+            <span>العودة إلى تسجيل الدخول</span>
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#btn-mock-send').on('click', function () {
+                const emailValue = $('#user-email').val().trim();
+                const atChar = String.fromCharCode(64);
+                const isValidEmail = emailValue.includes(atChar);
+
+                if (!emailValue || !isValidEmail) {
+                    $('#error-msg').removeClass('d-none').addClass('animate__animated animate__shakeX');
+                    $('#success-msg').addClass('d-none');
+                }
+                else {
+                    $('#error-msg').addClass('d-none');
+                    $('#recovery-form-content').fadeOut(400, function () {
+                        $('#success-msg').removeClass('d-none').hide().fadeIn();
+                    });
+                }
+            });
+        });
+    </script>
+}

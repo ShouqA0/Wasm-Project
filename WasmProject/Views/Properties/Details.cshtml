@@ -1,0 +1,168 @@
+﻿@model WasmProject.Models.Property
+
+@{
+    ViewData["Title"] = "تفاصيل الملكية - وسم";
+}
+
+<style>
+    
+    .wasm-details-wrapper {
+        padding: 40px 20px;
+        min-height: 80vh;
+        font-family: 'Tajawal', sans-serif !important;
+    }
+
+    
+    .glass-card-details {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 30px;
+        color: white;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        
+        .glass-card-details::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, #00d2ff, #ffffff, transparent);
+        }
+
+    
+    .detail-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 20px;
+        transition: 0.3s;
+        height: 100%;
+    }
+
+        .detail-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #00d2ff;
+        }
+
+    .detail-label {
+        color: #00d2ff;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+        display: block;
+        text-align: right;
+    }
+
+    .detail-value {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ffffff;
+        text-align: right;
+    }
+
+    
+    .status-badge {
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .status-safe {
+        background: rgba(40, 167, 69, 0.2);
+        color: #28a745;
+        border: 1px solid #28a745;
+    }
+
+    
+    .btn-wasm-back {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white !important;
+        border-radius: 50px;
+        padding: 12px 40px;
+        transition: 0.4s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-wasm-back:hover {
+            background: white;
+            color: #0a192f !important;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+    .serial-display {
+        font-family: 'Courier New', Courier, monospace;
+        letter-spacing: 2px;
+        color: #D4AF37;
+    }
+</style>
+
+<div class="container wasm-details-wrapper" dir="rtl">
+    <div class="text-center mb-5 animate__animated animate__fadeIn">
+        <h2 class="fw-bold text-white">تفاصيل ملكية الغرض</h2>
+        <p class="text-white-50">بيانات التوثيق الرسمية المسجلة في نظام وسم</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="glass-card-details shadow-lg animate__animated animate__zoomIn">
+
+                
+                <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-info bg-opacity-10 p-3 rounded-circle ms-3">
+                            <i class="fas fa-shield-alt fa-2x text-info"></i>
+                        </div>
+                        <div class="text-end">
+                            <h4 class="mb-0 fw-bold">وثيقة ملكية وسم</h4>
+                            <small class="text-white-50">تم التوثيق بنجاح ✅</small>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="status-badge status-safe"><i class="fas fa-check-circle ms-2"></i> ملكية موثقة</span>
+                    </div>
+                </div>
+
+                
+                <div class="row g-4 text-end">
+                    <div class="col-md-6">
+                        <div class="detail-item">
+                            <span class="detail-label">الماركة (Brand)</span>
+                            <div class="detail-value">@Model.Brand</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="detail-item">
+                            <span class="detail-label">الفئة (Category)</span>
+                            <div class="detail-value">@Model.Category</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="detail-item border-info border-opacity-25">
+                            <span class="detail-label text-info text-center d-block">الرقم التسلسلي (Serial Number)</span>
+                            <div class="detail-value serial-display text-center">@Model.SerialNumber</div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="mt-5 d-flex justify-content-center gap-3">
+                    <a asp-action="Index" class="btn-wasm-back">
+                        <i class="fas fa-arrow-right ms-2"></i> العودة لممتلكاتي
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

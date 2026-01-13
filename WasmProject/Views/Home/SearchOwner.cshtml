@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "البحث عن مالك - وسم";
+}
+
+<style>
+    
+    .wasm-search-wrapper {
+        padding: 60px 20px;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    
+    .search-glass-panel {
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 35px;
+        padding: 50px 40px;
+        width: 100%;
+        max-width: 700px;
+        transition: 0.4s ease;
+    }
+
+        
+        .search-glass-panel:hover {
+            border-color: #00d2ff !important;
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+    
+    .icon-glow {
+        color: #00d2ff;
+        filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.5));
+        margin-bottom: 25px;
+    }
+
+    
+    .wasm-search-input {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: none !important;
+        color: #000000 !important;
+        border-radius: 50px 0 0 50px !important; 
+        padding: 15px 25px !important;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    
+    .wasm-search-btn {
+        background: linear-gradient(45deg, #00d2ff, #0081ff);
+        border: none;
+        color: white;
+        border-radius: 0 50px 50px 0 !important; 
+        padding: 0 35px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .wasm-search-btn:hover {
+            box-shadow: -5px 0 15px rgba(0, 210, 255, 0.4);
+            transform: scale(1.02);
+        }
+
+    .text-wasm-blue {
+        color: #00d2ff;
+    }
+</style>
+
+<div class="container wasm-search-wrapper" dir="rtl">
+    <div class="search-glass-panel text-center shadow-lg">
+
+        <div class="icon-glow">
+            <i class="fas fa-hand-holding-heart fa-5x"></i>
+        </div>
+
+        <h2 class="fw-bold text-white mb-3">البحث عن صاحب الأمانة</h2>
+        <p class="text-white-50 mb-5">
+            أدخل الرقم التسلسلي (Serial Number) الموجود على الجهاز أو الغرض الذي وجدته للبحث عن صاحبه الموثق في نظام وسم.
+        </p>
+
+        <form asp-controller="Home" asp-action="FindResult" method="post">
+            <div class="input-group mb-4 shadow-lg">
+               
+                <button class="wasm-search-btn" type="submit">
+                    <i class="fas fa-search me-1"></i> بحث
+                </button>
+                
+                <input type="text" name="serialNumber" class="form-control wasm-search-input"
+                       placeholder="مثال: SN123456789" required />
+            </div>
+        </form>
+
+        
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-warning border-0 shadow-sm animate__animated animate__fadeIn"
+                 style="background: rgba(255, 193, 7, 0.1); color: #ffc107; border-radius: 15px;">
+                <i class="fas fa-exclamation-triangle me-2"></i> @ViewBag.Message
+            </div>
+        }
+
+        <div class="mt-5 text-white-50">
+            <p class="small">
+                نظام <strong class="text-wasm-blue">وسم</strong> يضمن خصوصية المالك؛ لن تظهر بيانات التواصل إلا بعد التحقق من مطابقة الرقم التسلسلي.
+            </p>
+        </div>
+    </div>
+</div>

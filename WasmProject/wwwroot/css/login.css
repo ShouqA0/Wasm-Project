@@ -1,0 +1,240 @@
+﻿/* 1. استدعاء ملف الخط المحلي من مجلد fonts الخاص بالمشروع */
+@font-face {
+    font-family: 'ZainCustom';
+    src: url('../fonts/zain-mob-long500.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* فرض الخط على كل العناصر ما عدا المساعد الذكي وأبنائه */
+*:not(#wasm-ai-assistant):not(#wasm-ai-assistant *) {
+    font-family: 'ZainCustom', sans-serif !important;
+}
+
+/* 2. قسم الواجهة الترحيبية (العلا) */
+.hero-section {
+    height: 100vh;
+    background: linear-gradient(to bottom, rgba(10, 25, 47, 0.4), #0A192F), url('/images/wasm-reveals.png') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* لضمان بدء المحتوى من جهة اليمين في RTL */
+    position: relative;
+    overflow: hidden;
+    padding-right: 10%; /* إزاحة النصوص لليمين قليلاً عن الحافة */
+    direction: rtl;
+}
+
+/* طبقة الصورة المتحركة التقنية خلف النصوص */
+.animated-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/tech-stars.gif');
+    opacity: 0.15;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: right !important; /* فرض المحاذاة لليمين */
+}
+
+/* تكبير أحجام النصوص للعبارات الافتتاحية */
+.big-title {
+    font-size: 8rem !important; /* حجم ضخم جداً لاسم وسم */
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.large-p {
+    font-size: 3rem !important; /* حجم كبير جداً للعبارات */
+    color: #ffffff;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+/* تحريك النصوص بالتدريج */
+.reveal-text {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1.2s ease-out;
+}
+
+    .reveal-text.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+.delay-1 {
+    transition-delay: 0.4s;
+}
+
+.delay-2 {
+    transition-delay: 0.8s;
+}
+
+.delay-3 {
+    transition-delay: 1.2s;
+}
+
+.delay-4 {
+    transition-delay: 1.6s;
+}
+
+/* 3. منطقة تسجيل الدخول الكحلية (التوسيط الكامل للمربع) */
+.login-section-wrapper {
+    background-color: #0A192F;
+    padding: 100px 0;
+    display: flex;
+    justify-content: center; /* توسيط أفقي في منتصف الشاشة */
+    align-items: center; /* توسيط عمودي في منتصف الشاشة */
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* المربع الزجاجي المطور */
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 60px 50px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    text-align: right; /* محاذاة المحتويات لليمين */
+    direction: rtl;
+}
+
+.welcome-msg {
+    color: #ffffff;
+    font-size: 2.5rem; /* تكبير رسالة الترحيب */
+    margin-bottom: 40px;
+    min-height: 50px;
+    font-weight: 400;
+}
+
+/* تنسيق حقول الإدخال */
+.input-container {
+    margin-bottom: 30px;
+}
+
+.field-label {
+    display: block;
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 1.5rem; /* تكبير حجم العناوين الجانبية */
+    opacity: 0.9;
+}
+
+.input-container input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 16px;
+    color: #ffffff !important;
+    font-size: 1.4rem; /* تكبير حجم النص المكتوب */
+    text-align: right;
+}
+
+/* 4. تنسيق النمط البصري */
+.pattern-grid-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 30px auto;
+    touch-action: none;
+}
+
+.dots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 55px;
+    padding: 35px;
+}
+
+.dot-node {
+    width: 18px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+    .dot-node.active {
+        background: #ffffff;
+        box-shadow: 0 0 20px #ffffff;
+        transform: scale(1.4);
+    }
+
+.pattern-line {
+    stroke: #ffffff;
+    stroke-width: 5;
+    stroke-linecap: round;
+}
+
+/* 5. الأزرار */
+.btn-glass-action {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    padding: 16px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.6rem; /* تكبير حجم كلمة تسجيل */
+    transition: 0.4s;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+    .btn-glass-action:hover {
+        background: #ffffff;
+        color: #0A192F;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+    }
+
+/* تنسيق رابط مستخدم جديد الموسط */
+.new-user-link {
+    color: #ffffff !important; /* اللون الذهبي الخاص بمشروع وسم */
+    text-decoration: none;
+    font-size: 1.1rem; /* حجم أصغر من زر الدخول وأكبر قليلاً من الأدمن */
+    font-weight: 500;
+    transition: 0.3s ease;
+    display: inline-block;
+}
+
+    .new-user-link:hover {
+        color: #ffffff !important;
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        transform: translateY(-1px);
+    }
+
+/* تنسيق رابط الأدمن ليكون أقل بروزاً */
+.admin-access {
+    color: rgba(255, 255, 255, 0.6) !important;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+    .admin-access:hover {
+        color: #ffffff !important;
+        opacity: 1;
+    }
+
+.animate__animated {
+    animation-duration: 0.6s;
+}
+
+.forgot-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 1.1rem;
+}

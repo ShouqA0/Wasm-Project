@@ -1,0 +1,348 @@
+﻿@model WasmProject.Models.LostItem
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "إبلاغ عن فقدان - وسم";
+}
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style>
+    
+    .report-wrapper {
+        padding: 40px 20px;
+        min-height: 90vh;
+    }
+
+    
+    .glass-report-card {
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(231, 76, 60, 0.3); 
+        border-radius: 30px;
+        color: white;
+        transition: 0.4s ease;
+    }
+
+        .glass-report-card:hover {
+            border-color: #e74c3c;
+            box-shadow: 0 0 25px rgba(231, 76, 60, 0.2);
+        }
+
+    
+    .form-label {
+        color: #ffffff !important;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+        text-align: right;
+    }
+
+    
+    .glass-input-sm {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: none !important;
+        color: #000000 !important;
+        border-radius: 10px !important;
+        padding: 10px 15px !important;
+        font-weight: 500;
+    }
+
+        .glass-input-sm:focus {
+            background: #ffffff !important;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.3) !important;
+        }
+
+    
+    #map {
+        height: 350px;
+        width: 100%;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        z-index: 1;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    
+    .btn-location-wasm {
+        background: rgba(0, 210, 255, 0.1);
+        color: #00d2ff;
+        border: 1px solid #00d2ff;
+        border-radius: 50px;
+        padding: 8px 20px;
+        transition: 0.3s;
+    }
+
+        .btn-location-wasm:hover {
+            background: #00d2ff;
+            color: #fff;
+        }
+
+    
+    .btn-submit-report {
+        background: linear-gradient(45deg, #e74c3c, #c0392b);
+        border: none;
+        color: white;
+        border-radius: 50px;
+        padding: 15px;
+        font-weight: bold;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    }
+
+        .btn-submit-report:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.5);
+        }
+
+   
+    .history-section {
+        margin-top: 50px;
+    }
+
+    .glass-table-container {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .table-wasm {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 12px; 
+        color: white !important;
+    }
+
+        .table-wasm thead th {
+            background: transparent;
+            color: #00d2ff;
+            border: none;
+            padding: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+        }
+
+        .table-wasm tbody tr {
+            background: rgba(255, 255, 255, 0.05); 
+            transition: 0.3s ease;
+            border-radius: 15px;
+        }
+
+            .table-wasm tbody tr:hover {
+                background: rgba(255, 255, 255, 0.1) !important;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+        .table-wasm td {
+            padding: 20px 15px;
+            border: none;
+            vertical-align: middle;
+        }
+
+        
+        .table-wasm tbody tr td:first-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+        .table-wasm tbody tr td:last-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+    .status-badge-lost {
+        background: rgba(231, 76, 60, 0.15);
+        color: #ff6b6b;
+        border: 1px solid rgba(231, 76, 60, 0.5);
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .font-monospace-sn {
+        font-family: 'Courier New', Courier, monospace;
+        color: #00d2ff;
+        letter-spacing: 1px;
+    }
+</style>
+
+<div class="container report-wrapper" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+           
+            <div class="glass-report-card shadow-lg mb-5 animate__animated animate__fadeIn">
+                <div class="card-body p-5">
+                    <div class="text-center mb-5">
+                        <i class="fas fa-bullhorn fa-4x text-danger mb-3 animate__animated animate__pulse animate__infinite"></i>
+                        <h2 class="fw-bold">تقديم بلاغ فقدان</h2>
+                        <p class="text-white-50">تعبئة البيانات بدقة تساعد في سرعة التعرف على غرضك المفقود واستعادته.</p>
+                    </div>
+
+                    <form asp-action="SubmitReport" method="post">
+                        <div class="mb-4">
+                            <label class="form-label">اختر الغرض المفقود من ممتلكاتك:</label>
+                            <select asp-for="PropertyId" class="form-select glass-input-sm" required>
+                                <option value="" class="text-dark">-- اختر من قائمة ممتلكاتك الموثقة --</option>
+                                @if (ViewBag.UserProperties != null)
+                                {
+                                    foreach (var prop in ViewBag.UserProperties)
+                                    {
+                                        <option value="@prop.PropertyId" selected="@(prop.PropertyId == ViewBag.SelectedPropId)" class="text-dark">
+                                            @prop.Brand - @prop.SerialNumber
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4 text-end">
+                                <label class="form-label">تاريخ الفقدان:</label>
+                                <input asp-for="LostDate" type="date" class="form-control glass-input-sm" required />
+                            </div>
+                            <div class="col-md-6 mb-4 text-end">
+                                <label class="form-label">المنطقة / الحي (وصف نصي):</label>
+                                <input asp-for="Notes" class="form-control glass-input-sm" placeholder="مثلاً: الرياض، حي النخيل..." required />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-info">تحديد الموقع الجغرافي الدقيق:</label>
+                            <div class="text-center mb-3">
+                                <button type="button" class="btn btn-location-wasm shadow-sm" onclick="getLocation()">
+                                    <i class="fas fa-location-arrow me-1"></i> استخدام موقعي الحالي
+                                </button>
+                            </div>
+                            <div id="map"></div>
+                            <input type="hidden" id="lat-input" name="Latitude" />
+                            <input type="hidden" id="lng-input" name="Longitude" />
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label">علامات فارقة أو تفاصيل إضافية:</label>
+                            <textarea asp-for="Notes" class="form-control glass-input-sm" rows="3" placeholder="مثلاً: خدش في الزاوية، غطاء لونه أزرق..."></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-submit-report">
+                                <i class="fas fa-paper-plane me-2"></i> إرسال البلاغ وتعميم الرقم التسلسلي
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            
+            <div class="history-section animate__animated animate__fadeInUp">
+                <div class="glass-table-container">
+                    <h4 class="fw-bold mb-4 text-white">
+                        <i class="fas fa-history me-2 text-info"></i> سجل بلاغاتي السابقة
+                    </h4>
+
+                    <div class="table-responsive">
+                        <table class="table-wasm text-center">
+                            <thead>
+                                <tr>
+                                    <th>الغرض</th>
+                                    <th>الرقم التسلسلي</th>
+                                    <th>تاريخ الفقدان</th>
+                                    <th>الموقع</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.UserReports != null && ((IEnumerable<dynamic>)ViewBag.UserReports).Any())
+                                {
+                                    foreach (var report in ViewBag.UserReports)
+                                    {
+                                        <tr>
+                                            <td class="fw-bold">@report.Property.Brand</td>
+                                            <td class="font-monospace-sn">@report.Property.SerialNumber</td>
+                                            <td>@report.LostDate.ToString("yyyy-MM-dd")</td>
+                                            <td>@report.Notes</td>
+                                            <td><span class="status-badge-lost">مفقود</span></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="py-5 text-white-50 text-center">
+                                            <i class="fas fa-folder-open d-block mb-2 fa-2x"></i>
+                                            لا توجد بلاغات سابقة مسجلة.
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        let map;
+        let marker;
+
+        const defaultLat = 24.7136;
+        const defaultLng = 46.6753;
+
+        function initMap() {
+            map = L.map('map').setView([defaultLat, defaultLng], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            map.on('click', function(e) {
+                placeMarker(e.latlng.lat, e.latlng.lng);
+            });
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    map.setView([lat, lng], 16);
+                    placeMarker(lat, lng);
+                }, () => {
+                    alert("يرجى تفعيل صلاحية الوصول للموقع في المتصفح.");
+                });
+            } else {
+                alert("متصفحك لا يدعم خاصية تحديد الموقع.");
+            }
+        }
+
+        function placeMarker(lat, lng) {
+            if (marker) {
+                marker.setLatLng([lat, lng]);
+            } else {
+                marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+                marker.on('dragend', function(e) {
+                    const pos = marker.getLatLng();
+                    updateInputs(pos.lat, pos.lng);
+                });
+            }
+            updateInputs(lat, lng);
+        }
+
+        function updateInputs(lat, lng) {
+            document.getElementById("lat-input").value = lat.toFixed(6);
+            document.getElementById("lng-input").value = lng.toFixed(6);
+        }
+
+        document.addEventListener('DOMContentLoaded', initMap);
+    </script>
+}

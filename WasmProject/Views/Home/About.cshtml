@@ -1,0 +1,166 @@
+﻿@{
+    ViewData["Title"] = "تعرف علينا - وسم";
+}
+
+<style>
+    
+    .about-wrapper {
+        padding: 60px 0;
+        color: white;
+    }
+
+    
+    .glass-hero {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 35px;
+        padding: 50px 20px;
+        margin-bottom: 50px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    
+    .glass-feature-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 25px;
+        padding: 30px;
+        height: 100%;
+        transition: 0.4s ease;
+    }
+
+        .glass-feature-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: #00d2ff;
+            transform: translateY(-10px);
+        }
+
+    
+    .mini-glass-box {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 20px;
+        transition: 0.3s;
+    }
+
+        .mini-glass-box:hover {
+            border-color: #00d2ff;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+        }
+
+    .border-right-wasm {
+        border-right: 5px solid #00d2ff;
+        padding-right: 15px;
+    }
+
+    .text-wasm-blue {
+        color: #00d2ff;
+    }
+
+    .text-wasm-green {
+        color: #2ecc71;
+    }
+
+    .text-wasm-red {
+        color: #e74c3c;
+    }
+
+    .text-wasm-gold {
+        color: #ffc107;
+    }
+
+    
+    .graduation-panel {
+        background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(0, 129, 255, 0.1));
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 210, 255, 0.2);
+        border-radius: 30px;
+        padding: 50px;
+    }
+</style>
+
+<div class="container about-wrapper" dir="rtl">
+
+    
+    <div class="glass-hero text-center animate__animated animate__fadeInDown">
+        <h1 class="display-4 fw-bold mb-3">عن وسم <small class="text-wasm-blue fs-4">Wasm</small></h1>
+        <p class="lead mx-auto text-white-50" style="max-width: 800px;">
+            نظام تقني سعودي رائد يهدف إلى خلق بيئة آمنة للممتلكات الشخصية، من خلال توثيق الملكية بالرقم التسلسلي وربطها بالهوية الوطنية الموثقة.
+        </p>
+    </div>
+
+    <div class="row g-5 align-items-stretch">
+        
+        <div class="col-md-6">
+            <div class="glass-feature-card">
+                <h2 class="fw-bold mb-4 border-right-wasm">رؤيتنا</h2>
+                <p class="text-white-50 lh-lg">
+                    في "وسم"، نستلهم اسمنا من العراقة العربية حيث كان "الوسم" رمزاً أصيلاً لإثبات الملكية. نسعى اليوم لتحويل هذا المفهوم إلى نظام رقمي متطور يقلل من السرقات، ويسهل عملية استعادة المفقودات، ويضمن حق المالك في إثبات ملكيته لأي غرض شخصي بكل سهولة وأمان عبر التقنيات الحديثة.
+                </p>
+                <div class="mt-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-wasm-green me-3 fa-lg"></i>
+                        <span class="fw-bold">تعزيز الأمانة الرقمية في المجتمع السعودي.</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-wasm-green me-3 fa-lg"></i>
+                        <span class="fw-bold">تسهيل نقل الملكية بشكل رسمي وموثق.</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-wasm-green me-3 fa-lg"></i>
+                        <span class="fw-bold">دعم جهود استعادة الممتلكات المفقودة.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-md-6">
+            <div class="glass-feature-card text-center">
+                <h4 class="fw-bold mb-5 text-wasm-blue">لماذا تختار وسم؟</h4>
+                <div class="row g-4">
+                    <div class="col-6">
+                        <div class="mini-glass-box">
+                            <i class="fas fa-fingerprint fa-2x text-wasm-blue mb-3"></i>
+                            <h6 class="fw-bold">هوية فريدة</h6>
+                            <p class="small text-white-50 mb-0">ربط الغرض برقمك التسلسلي وهويتك.</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mini-glass-box">
+                            <i class="fas fa-file-invoice fa-2x text-wasm-green mb-3"></i>
+                            <h6 class="fw-bold">مزامنة ذكية</h6>
+                            <p class="small text-white-50 mb-0">قراءة الفواتير آلياً عبر الـ PDF.</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mini-glass-box">
+                            <i class="fas fa-shield-alt fa-2x text-wasm-red mb-3"></i>
+                            <h6 class="fw-bold">حماية قصوى</h6>
+                            <p class="small text-white-50 mb-0">نظام تسجيل دخول بالنمط البصري.</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mini-glass-box">
+                            <i class="fas fa-handshake fa-2x text-wasm-gold mb-3"></i>
+                            <h6 class="fw-bold">سهولة التنازل</h6>
+                            <p class="small text-white-50 mb-0">نقل الملكية بضغطة زر واحدة.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="mt-5 graduation-panel shadow text-center animate__animated animate__fadeInUp">
+        <i class="fas fa-graduation-cap fa-4x text-wasm-blue mb-4"></i>
+        <h3 class="fw-bold mb-3">مشروع تخرج (وسم)</h3>
+        <p class="lead mb-0 text-white-50">
+            تم تطوير هذا النظام كشروع تخرج متميز يجمع بين أحدث تقنيات الـ <strong class="text-white">ASP.NET Core</strong> ومعايير تجربة المستخدم العالمية لخدمة الوطن والمواطن وحماية ممتلكاتهم الرقمية والشخصية.
+        </p>
+    </div>
+</div>

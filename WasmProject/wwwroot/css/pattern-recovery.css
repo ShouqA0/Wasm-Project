@@ -1,0 +1,152 @@
+﻿/* wasm - pattern-recovery.css */
+
+/* 1. الحاوية الكبرى */
+.recovery-page-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0A192F; /* الخلفية الكحلية الرسمية */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    direction: rtl;
+    z-index: 1000;
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* 2. البطاقة الزجاجية */
+.glass-recovery-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    width: 90%;
+    max-width: 380px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.wasm-title {
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+    font-family: 'Zain', sans-serif;
+}
+
+/* 3. ترتيب "الكلمة وتحتها المستطيل" */
+.input-group-wasm {
+    text-align: right;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+/* كلمة البريد الإلكتروني (خارج الإطار) */
+.field-label {
+    color: #ffffff !important; /* تم تعديله للأبيض لضمان الوضوح فوق الخلفية الكحلية */
+    font-size: 1.15rem;
+    font-family: 'Zain', sans-serif;
+    font-weight: 600;
+    margin: 0;
+    padding-right: 5px;
+}
+
+/* 4. المستطيل الزجاجي الشفاف المصغر */
+.wasm-input-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 18px;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px;
+    height: 55px; /* حجم متناسق مع الأيقونة */
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+/* --- تعديلات الأيقونة داخل المستطيل --- */
+.input-icon {
+    flex-shrink: 0;
+    stroke: rgba(255, 255, 255, 0.45); /* لون أيقونة ناعم وشفاف */
+    stroke-width: 1.3;
+    transition: all 0.3s ease;
+}
+
+/* تغيير لون الأيقونة عند التركيز على الحقل */
+.wasm-input-with-icon:focus-within .input-icon {
+    stroke: #D4AF37; /* تتحول للذهبي عند الكتابة لتعزيز التفاعل */
+    opacity: 1;
+}
+
+/* حقل الإدخال */
+.wasm-input {
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: #000000 !important; /* النص أسود داخل المستطيل الشفاف */
+    font-size: 1rem;
+    text-align: right;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 600;
+}
+
+/* عند الضغط على المستطيل */
+.wasm-input-with-icon:focus-within {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 5. زر الإرسال وزر العودة */
+.send-action-wrapper {
+    margin-top: 20px;
+}
+
+.btn-send-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.3s;
+}
+
+    .btn-send-icon:hover {
+        transform: translateY(-3px);
+    }
+
+.back-to-login-btn {
+    margin-top: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s;
+}
+
+    .back-to-login-btn:hover {
+        background: #ffffff !important;
+        color: #0A192F !important;
+        transform: scale(1.05);
+    }
+
+/* رسالة النجاح */
+.success-box {
+    padding: 15px;
+}

@@ -1,0 +1,97 @@
+﻿@model WasmProject.Models.UserDb
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "تأكيد حذف الحساب - وسم";
+}
+
+@section Styles {
+    <style>
+        .delete-wrapper {
+            background-color: #0A192F;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .glass-card-delete {
+            background: rgba(255, 255, 255, 0.03) !important;
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(220, 53, 69, 0.3); 
+            border-radius: 30px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .user-info-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: right;
+            border-right: 4px solid #D4AF37;
+        }
+
+        .warning-text {
+            color: #ff4d4d;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .reason-input {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+            border-radius: 12px !important;
+            padding: 12px !important;
+            width: 100%;
+            margin-bottom: 25px;
+            min-height: 100px;
+        }
+    </style>
+}
+
+<div class="delete-wrapper">
+    <div class="glass-card-delete animate__animated animate__headShake">
+        <i class="fas fa-exclamation-triangle fa-4x text-danger mb-4"></i>
+        <h2 class="text-white mb-2">تأكيد حذف الحساب</h2>
+        <p class="text-white-50">هل أنت متأكد من رغبتك في حذف هذا المستخدم نهائياً؟</p>
+
+        <div class="user-info-box">
+            <p class="text-white mb-1"><strong>اسم المستخدم:</strong> @Model.UserName</p>
+            <p class="text-white mb-1"><strong>البريد الإلكتروني:</strong> @Model.Email</p>
+            <p class="text-white mb-0"><strong>رقم الهوية:</strong> @Model.NationalID</p>
+        </div>
+
+        <p class="warning-text">
+            <i class="fas fa-info-circle ms-1"></i>
+            سيتم حذف جميع الممتلكات المرتبطة بهذا الحساب تلقائياً.
+        </p>
+
+        
+        <form asp-action="DeleteUser" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="UserID" value="@Model.UserID" />
+
+            <div class="text-right">
+                <label class="text-white-50 small mb-2 d-block">سبب الحذف (إلزامي):</label>
+                <textarea name="deletionReason" class="reason-input" required
+                          placeholder="اكتب سبب الحذف هنا..."></textarea>
+            </div>
+
+            <div class="d-flex gap-3 justify-content-center">
+                <button type="submit" class="btn btn-danger rounded-pill px-5 py-2">
+                    تأكيد الحذف النهائي
+                </button>
+                <a asp-action="Dashboard" class="btn btn-outline-light rounded-pill px-5 py-2">
+                    إلغاء
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

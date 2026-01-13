@@ -1,0 +1,152 @@
+﻿/* wasm-ai.css 
+   تنسيقات المساعد الذكي لمشروع وسم - نسخة الأيقونات المدمجة
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+
+body #wasm-ai-assistant,
+body #wasm-ai-assistant *,
+body #chat-window,
+body #chat-window *,
+body #chat-messages .msg,
+body #chat-input {
+    font-family: 'Tajawal', sans-serif !important;
+    direction: rtl !important;
+}
+
+#wasm-ai-assistant {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99999 !important; /* ارفعي الرقم لضمان ظهوره فوق خلفية العلا */
+}
+
+/* زر التبديل الدائري مع أيقونة مدمجة */
+#chat-toggle-btn {
+    width: 70px;
+    height: 70px;
+    background: white !important;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: 0.3s;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+    #chat-toggle-btn::after {
+        content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="%230A192F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>');
+    }
+
+    #chat-toggle-btn:hover {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+#greeting-bubble {
+    background: white !important;
+    color: #333 !important;
+    border-right: 5px solid #151812 !important;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#chat-window {
+    width: 320px;
+    border-radius: 20px;
+    position: absolute;
+    bottom: 85px;
+    right: 0;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    border: none;
+}
+
+    /* رأس النافذة مع أيقونة روبوت مدمجة */
+    #chat-window .card-header {
+        background: #0A192F !important;
+        color: white !important;
+        padding: 15px;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+.header-title-wasm::before {
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:8px;"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>');
+    margin-left: 8px;
+}
+
+#chat-messages {
+    height: 300px;
+    background-color: #151812;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.bot-msg {
+    background: #ffffff !important;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #444 !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-right: 3px solid #151812 !important;
+    align-self: flex-start;
+    max-width: 85%;
+}
+
+.user-msg {
+    background: #0A192F !important;
+    color: #ffffff !important;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 0.9rem;
+    align-self: flex-end;
+    max-width: 85%;
+}
+
+#chat-window .card-footer {
+    background: white !important;
+    padding: 12px !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.input-group-wasm {
+    display: flex;
+    align-items: center;
+    background: #f1f3f5;
+    border-radius: 25px;
+    padding: 5px 15px;
+}
+
+#chat-input {
+    font-size: 0.95rem !important;
+    border: none !important;
+    background: transparent !important;
+    width: 100%;
+    color: #333 !important;
+    outline: none !important;
+}
+
+/* زر الإرسال مع أيقونة سهم مدمجة */
+#btn-send-chat {
+    background: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    #btn-send-chat::after {
+        content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%230A192F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>');
+    }
