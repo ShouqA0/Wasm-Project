@@ -1,86 +1,76 @@
 ﻿@model WasmProject.Models.Property
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "تعديل بيانات الممتلكات - وسم";
+    Layout = "_Layout";
 }
 
-<h1>Edit</h1>
+<div class="main-container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-white"><i class="fas fa-edit text-info"></i> تعديل بيانات الممتلكات</h2>
+        <p class="text-white-50">تحديث معلومات الغرض الموثق في نظام وسم</p>
+    </div>
 
-<h4>Property</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PropertyId" />
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="glass-card p-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <input type="hidden" asp-for="PropertyId" />
+                    <input type="hidden" asp-for="UserId" />
+                    <input type="hidden" asp-for="CreatedAt" />
+                    <input type="hidden" asp-for="SourceType" />
+                    <input type="hidden" asp-for="IsVerified" />
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="Category" class="form-label text-white">تصنيف الغرض</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-secondary text-info"><i class="fas fa-list"></i></span>
+                                <input asp-for="Category" class="form-control bg-transparent border-secondary text-white" placeholder="مثلاً: إلكترونيات" />
+                            </div>
+                            <span asp-validation-for="Category" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Brand" class="form-label text-white">العلامة التجارية</label>
+                            <input asp-for="Brand" class="form-control bg-transparent border-secondary text-white" />
+                            <span asp-validation-for="Brand" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Status" class="form-label text-white">حالة الغرض</label>
+                            <select asp-for="Status" class="form-select bg-transparent border-secondary text-white">
+                                <option value="Safe" class="bg-dark">آمن (Safe)</option>
+                                <option value="Lost" class="bg-dark">مفقود (Lost)</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-12 mb-4">
+                            <label asp-for="SerialNumber" class="form-label text-white">الرقم التسلسلي</label>
+                            <input asp-for="SerialNumber" class="form-control bg-transparent border-secondary text-info fw-bold" readonly />
+                            <p class="text-white-50 small mt-1"><i class="fas fa-info-circle"></i> لا يمكن تعديل الرقم التسلسلي لضمان موثوقية الوسم</p>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="submit" class="card-action-btn border-0 py-3">
+                            <i class="fas fa-save me-2"></i> حفظ التغييرات
+                        </button>
+                        <a asp-action="Index" class="btn btn-nav-glass text-white py-2">
+                            <i class="fas fa-arrow-right me-2"></i> العودة لقائمة الممتلكات
+                        </a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
-                <span asp-validation-for="Category" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Brand" class="control-label"></label>
-                <input asp-for="Brand" class="form-control" />
-                <span asp-validation-for="Brand" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SerialNumber" class="control-label"></label>
-                <input asp-for="SerialNumber" class="form-control" />
-                <span asp-validation-for="SerialNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SourceType" class="control-label"></label>
-                <input asp-for="SourceType" class="form-control" />
-                <span asp-validation-for="SourceType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="VerifiedStoreName" class="control-label"></label>
-                <input asp-for="VerifiedStoreName" class="form-control" />
-                <span asp-validation-for="VerifiedStoreName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SourceIdentifier" class="control-label"></label>
-                <input asp-for="SourceIdentifier" class="form-control" />
-                <span asp-validation-for="SourceIdentifier" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsVerified" class="control-label"></label>
-                <input asp-for="IsVerified" class="form-control" />
-                <span asp-validation-for="IsVerified" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ExternalReferenceId" class="control-label"></label>
-                <input asp-for="ExternalReferenceId" class="form-control" />
-                <span asp-validation-for="ExternalReferenceId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SyncTimestamp" class="control-label"></label>
-                <input asp-for="SyncTimestamp" class="form-control" />
-                <span asp-validation-for="SyncTimestamp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
